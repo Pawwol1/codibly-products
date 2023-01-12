@@ -1,12 +1,18 @@
 import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Main from './components/Main';
+import ProductModal from './components/ProductModal/ProductModal';
 import './App.scss';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header"></header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/product/:productID" element={<ProductModal />} />
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
