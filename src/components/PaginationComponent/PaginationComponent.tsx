@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Pagination from '@mui/material/Pagination';
+import ProductsContext from '../../context/products-context';
 import './PaginationComponent.scss';
-interface IProps {
-  totalPages: number;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
-}
 
-const PaginationComponent = ({ totalPages, setPage }: IProps) => {
+const PaginationComponent = () => {
+  const ctx = useContext(ProductsContext);
+
   return (
     <div className="paginationComponent">
-      {totalPages > 1 ? (
-        <Pagination count={totalPages} onChange={(e, page) => setPage(page)} />
+      {ctx.totalPages > 1 ? (
+        <Pagination
+          count={ctx.totalPages}
+          onChange={(e, page) => ctx.setPage(page)}
+        />
       ) : null}
     </div>
   );

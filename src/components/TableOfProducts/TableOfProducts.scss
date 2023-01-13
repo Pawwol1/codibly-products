@@ -1,0 +1,15 @@
+.tableOfProducts {
+  border: 1px solid black;
+  border-collapse: collapse;
+  margin: 16px 0;
+  text-align: center;
+  width: 80%;
+  th {
+    border: 1px solid black;
+    padding: 8px;
+  }
+  &__notFound {
+    color: red;
+    margin-bottom: 24px;
+  }
+}

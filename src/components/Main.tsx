@@ -1,12 +1,12 @@
 import React from 'react';
 import FilterInput from './FilterInput/FilterInput';
-import ListOfProducts from './ListOfProducts/ListOfProducts';
+import TableOfProducts from './TableOfProducts/TableOfProducts';
 
 const Main = () => {
   return (
     <div className="App">
       <FilterInput />
-      <ListOfProducts />
+      <TableOfProducts />
     </div>
   );
 };

@@ -1,0 +1,18 @@
+.productModal {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  &__data {
+    margin-bottom: 24px;
+    p {
+      padding: 8px;
+    }
+  }
+  &__notFound {
+    color: red;
+    margin-bottom: 24px;
+  }
+}
