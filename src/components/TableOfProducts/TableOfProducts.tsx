@@ -1,3 +1,4 @@
+import { CircularProgress } from '@mui/material';
 import React, { useContext } from 'react';
 import ProductsContext from '../../context/products-context';
 import PaginationComponent from '../PaginationComponent/PaginationComponent';
@@ -19,16 +20,19 @@ const TableOfProducts = () => {
             </tr>
           </thead>
           <tbody>
-            {!ctx.searchBoolean &&
-              ctx.products.map((product) => {
-                return <ProductRow key={product.id} product={product} />;
-              })}
-            {ctx.searchBoolean &&
-              ctx.filteredProduct.map((product) => {
-                return <ProductRow key={product.id} product={product} />;
-              })}
+            {!ctx.searchBoolean
+              ? ctx.products.map((product) => {
+                  return <ProductRow key={product.id} product={product} />;
+                })
+              : ctx.filteredProduct.map((product) => {
+                  return <ProductRow key={product.id} product={product} />;
+                })}
           </tbody>
         </table>
+      ) : ctx.isLoading ? (
+        <div className="tableOfProducts__loading">
+          <CircularProgress />
+        </div>
       ) : (
         <p
           className="tableOfProducts__notFound"

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 import { SearchRounded } from '@mui/icons-material';
+import { useNavigate, useParams } from 'react-router-dom';
 import ProductsContext from '../../context/products-context';
 import './FilterInput.scss';
 
@@ -8,25 +9,36 @@ const FilterInput = () => {
   const [searchID, setSearchID] = useState<string | number>('');
   const [inputError, setInputError] = useState(false);
   const ctx = useContext(ProductsContext);
+  const navigate = useNavigate();
+  const { filterID } = useParams();
 
   useEffect(() => {
     if (searchID !== '') {
-      setInputError(searchID < 1 || searchID > 12);
+      setInputError(searchID < 1 || searchID > ctx.totalProducts);
     }
-  }, [searchID]);
+    if (filterID) {
+      ctx.setSearchBoolean(true);
+      ctx.setFilteredProduct(
+        ctx.products.filter((product) => product.id === Number(filterID))
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchID, filterID, ctx.products]);
 
   const handleIDChange = (e: { target: { value: string } }) => {
     const limit = 2;
     setSearchID(e.target.value.slice(0, limit));
   };
 
-  const handleOnClick = () => {
+  const handleOnClick = (searchID: number) => {
+    ctx.setSearchBoolean(true);
     if (ctx.products.length > 0) {
-      ctx.setSearchBoolean(true);
       ctx.setFilteredProduct(
-        ctx.products.filter((product) => product.id == searchID)
+        ctx.products.filter((product) => product.id === searchID)
       );
+      navigate(`/filter/${searchID}`);
     }
+    setSearchID('');
   };
 
   return (
@@ -46,7 +58,7 @@ const FilterInput = () => {
           size="medium"
           endIcon={<SearchRounded />}
           disabled={!searchID || inputError}
-          onClick={handleOnClick}
+          onClick={() => handleOnClick(Number(searchID))}
         >
           Search
         </Button>

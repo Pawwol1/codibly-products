@@ -10,6 +10,9 @@
   }
   &__notFound {
     color: red;
-    margin-bottom: 24px;
+    margin: 24px 0;
+  }
+  &__loading {
+    margin: 24px 0;
   }
 }

@@ -1,0 +1,11 @@
+.pageNotFound {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  h2 {
+    font-size: 72px;
+    margin-bottom: 36px;
+  }
+}

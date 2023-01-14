@@ -9,23 +9,29 @@ export interface Product {
 interface ProductsContextType {
   products: Product[];
   totalProducts: number;
+  page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   totalPages: number;
   searchBoolean: boolean;
   setSearchBoolean: React.Dispatch<React.SetStateAction<boolean>>;
   filteredProduct: Product[];
   setFilteredProduct: React.Dispatch<React.SetStateAction<Product[]>>;
+  isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ProductsContext = createContext<ProductsContextType>({
   products: [],
   totalProducts: 0,
+  page: 0,
   setPage: () => {},
   totalPages: 0,
   searchBoolean: false,
   setSearchBoolean: () => {},
   filteredProduct: [],
   setFilteredProduct: () => {},
+  isLoading: true,
+  setIsLoading: () => {},
 });
 
 export const ProductsContextProvider = (props: {
@@ -40,45 +46,65 @@ export const ProductsContextProvider = (props: {
     | undefined;
 }) => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [totalProducts, setTotalProducts] = useState<number>(0);
+  const [totalProducts, setTotalProducts] = useState<number>(12);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
+  const [URL, setURL] = useState(
+    `https://reqres.in/api/products?page=${page}&per_page=5`
+  );
   const [searchBoolean, setSearchBoolean] = useState(false);
   const [filteredProduct, setFilteredProduct] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  let URL: string;
-  if (searchBoolean) {
-    URL = `https://reqres.in/api/products?per_page=${totalProducts}`;
-  } else {
-    URL = `https://reqres.in/api/products?page=${page}&per_page=5`;
-  }
+  useEffect(() => {
+    searchBoolean
+      ? setURL(`https://reqres.in/api/products?per_page=${totalProducts}`)
+      : setURL(`https://reqres.in/api/products?page=${page}&per_page=5`);
+  }, [searchBoolean, totalProducts, page]);
 
   useEffect(() => {
     const getProducts = async () => {
-      const res = await fetch(URL);
-      if (!res.ok) {
-        const err = 'Product not Found';
-        throw new Error(err);
+      try {
+        const res = await fetch(URL);
+        if (!res.ok) {
+          const err = 'Product not Found';
+          throw new Error(err);
+        }
+        const data = await res.json();
+        setProducts(data.data);
+        setTotalPages(data.total_pages);
+        setTotalProducts(data.total);
+      } catch (err) {
+        console.log(err);
       }
-      const data = await res.json();
-      setProducts(data.data);
-      setTotalPages(data.total_pages);
-      setTotalProducts(data.total);
     };
     getProducts();
-  }, [page, URL, searchBoolean]);
+    setIsLoading(true);
+  }, [URL]);
+
+  useEffect(() => {
+    const timeoutID = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+    return () => {
+      clearTimeout(timeoutID);
+    };
+  }, [isLoading]);
 
   return (
     <ProductsContext.Provider
       value={{
         products: products,
         totalProducts: totalProducts,
+        page: page,
         setPage: setPage,
         totalPages: totalPages,
         searchBoolean: searchBoolean,
         setSearchBoolean: setSearchBoolean,
         filteredProduct: filteredProduct,
         setFilteredProduct: setFilteredProduct,
+        isLoading: isLoading,
+        setIsLoading: setIsLoading,
       }}
     >
       {props.children}

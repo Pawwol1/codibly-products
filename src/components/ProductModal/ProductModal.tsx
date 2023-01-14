@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
 import ProductsContext, { Product } from '../../context/products-context';
 import './ProductModal.scss';
 
@@ -12,25 +12,31 @@ const ProductModal = () => {
     color: '',
     pantone_value: '',
   });
-  const { productID } = useParams();
   const ctx = useContext(ProductsContext);
+  const { productID } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     const getProduct = async () => {
-      const resp = await fetch(`https://reqres.in/api/product/${productID}`);
-      if (!resp.ok) {
-        const err = 'Product not Found';
-        throw new Error(err);
+      try {
+        const resp = await fetch(`https://reqres.in/api/product/${productID}`);
+        if (!resp.ok) {
+          const err = 'Product not Found';
+          throw new Error(err);
+        }
+        const data = await resp.json();
+        setProduct(data.data);
+      } catch (err) {
+        console.log(err);
       }
-      const data = await resp.json();
-      setProduct(data.data);
     };
     getProduct();
+    ctx.setIsLoading(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productID]);
 
   const handleClick = () => {
-    navigate(-1);
+    navigate('/page/1');
     ctx.setSearchBoolean(false);
   };
 
@@ -44,11 +50,13 @@ const ProductModal = () => {
           <p>Color: {product.color}</p>
           <p>Pantone Value: {product.pantone_value}</p>
         </div>
+      ) : ctx.isLoading ? (
+        <CircularProgress />
       ) : (
         <p className="productModal__notFound">Product not found</p>
       )}
       <Button variant="contained" color="inherit" onClick={handleClick}>
-        Go back
+        Go back to main page
       </Button>
     </div>
   );
