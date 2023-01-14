@@ -4,14 +4,6 @@ import PaginationComponent from '../PaginationComponent/PaginationComponent';
 import ProductRow from '../ProductRow/ProductRow';
 import './TableOfProducts.scss';
 
-export interface Product {
-  id: number;
-  name: string;
-  year: number;
-  color: string;
-  pantone_value?: string;
-}
-
 const TableOfProducts = () => {
   const ctx = useContext(ProductsContext);
 
@@ -27,21 +19,23 @@ const TableOfProducts = () => {
             </tr>
           </thead>
           <tbody>
-            {ctx.products.map((product) => {
-              return (
-                <ProductRow
-                  key={product.id}
-                  id={product.id}
-                  name={product.name}
-                  year={product.year}
-                  color={product.color}
-                />
-              );
-            })}
+            {!ctx.searchBoolean &&
+              ctx.products.map((product) => {
+                return <ProductRow key={product.id} product={product} />;
+              })}
+            {ctx.searchBoolean &&
+              ctx.filteredProduct.map((product) => {
+                return <ProductRow key={product.id} product={product} />;
+              })}
           </tbody>
         </table>
       ) : (
-        <p className="tableOfProducts__notFound">Products not found</p>
+        <p
+          className="tableOfProducts__notFound"
+          data-testid="products_notFound"
+        >
+          Products not found
+        </p>
       )}
       <PaginationComponent />
     </>

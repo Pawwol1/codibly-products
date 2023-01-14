@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import ProductsContext from '../../context/products-context';
-import { Product } from '../TableOfProducts/TableOfProducts';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Button } from '@mui/material';
+import ProductsContext, { Product } from '../../context/products-context';
 import './ProductModal.scss';
 
 const ProductModal = () => {
@@ -14,12 +14,13 @@ const ProductModal = () => {
   });
   const { productID } = useParams();
   const ctx = useContext(ProductsContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getProduct = async () => {
       const resp = await fetch(`https://reqres.in/api/product/${productID}`);
       if (!resp.ok) {
-        const err = 'User not Found';
+        const err = 'Product not Found';
         throw new Error(err);
       }
       const data = await resp.json();
@@ -28,7 +29,10 @@ const ProductModal = () => {
     getProduct();
   }, [productID]);
 
-  console.log(ctx.totalProducts);
+  const handleClick = () => {
+    navigate(-1);
+    ctx.setSearchBoolean(false);
+  };
 
   return (
     <div className="productModal" style={{ backgroundColor: product.color }}>
@@ -43,7 +47,9 @@ const ProductModal = () => {
       ) : (
         <p className="productModal__notFound">Product not found</p>
       )}
-      <Link to="/">Back to main page</Link>
+      <Button variant="contained" color="inherit" onClick={handleClick}>
+        Go back
+      </Button>
     </div>
   );
 };

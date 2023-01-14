@@ -1,11 +1,20 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { Product } from '../components/TableOfProducts/TableOfProducts';
-
+export interface Product {
+  id: number;
+  name: string;
+  year: number;
+  color: string;
+  pantone_value?: string;
+}
 interface ProductsContextType {
   products: Product[];
   totalProducts: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   totalPages: number;
+  searchBoolean: boolean;
+  setSearchBoolean: React.Dispatch<React.SetStateAction<boolean>>;
+  filteredProduct: Product[];
+  setFilteredProduct: React.Dispatch<React.SetStateAction<Product[]>>;
 }
 
 const ProductsContext = createContext<ProductsContextType>({
@@ -13,6 +22,10 @@ const ProductsContext = createContext<ProductsContextType>({
   totalProducts: 0,
   setPage: () => {},
   totalPages: 0,
+  searchBoolean: false,
+  setSearchBoolean: () => {},
+  filteredProduct: [],
+  setFilteredProduct: () => {},
 });
 
 export const ProductsContextProvider = (props: {
@@ -30,7 +43,15 @@ export const ProductsContextProvider = (props: {
   const [totalProducts, setTotalProducts] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
-  const URL = `https://reqres.in/api/products?page=${page}&per_page=5`;
+  const [searchBoolean, setSearchBoolean] = useState(false);
+  const [filteredProduct, setFilteredProduct] = useState<Product[]>([]);
+
+  let URL: string;
+  if (searchBoolean) {
+    URL = `https://reqres.in/api/products?per_page=${totalProducts}`;
+  } else {
+    URL = `https://reqres.in/api/products?page=${page}&per_page=5`;
+  }
 
   useEffect(() => {
     const getProducts = async () => {
@@ -45,7 +66,7 @@ export const ProductsContextProvider = (props: {
       setTotalProducts(data.total);
     };
     getProducts();
-  }, [page, URL]);
+  }, [page, URL, searchBoolean]);
 
   return (
     <ProductsContext.Provider
@@ -54,6 +75,10 @@ export const ProductsContextProvider = (props: {
         totalProducts: totalProducts,
         setPage: setPage,
         totalPages: totalPages,
+        searchBoolean: searchBoolean,
+        setSearchBoolean: setSearchBoolean,
+        filteredProduct: filteredProduct,
+        setFilteredProduct: setFilteredProduct,
       }}
     >
       {props.children}

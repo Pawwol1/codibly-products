@@ -1,0 +1,20 @@
+.filterInput {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  input {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    padding: 8px;
+    margin: 0 8px 8px 0;
+    width: 200px;
+  }
+  Button {
+    margin-bottom: 8px;
+  }
+}
+.wrongInput {
+  color: red;
+  font-size: 16px;
+}

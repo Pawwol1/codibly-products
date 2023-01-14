@@ -13,7 +13,9 @@ const PaginationComponent = () => {
           count={ctx.totalPages}
           onChange={(e, page) => ctx.setPage(page)}
         />
-      ) : null}
+      ) : (
+        <p data-testid="hidden" aria-hidden="true" />
+      )}
     </div>
   );
 };
