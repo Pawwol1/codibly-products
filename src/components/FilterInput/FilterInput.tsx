@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 import { SearchRounded } from '@mui/icons-material';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -27,9 +27,10 @@ const FilterInput = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchID, filterID, ctx.products]);
 
-  const handleIDChange = (e: { target: { value: string } }) => {
+  const handleIDChange = (e: ChangeEvent<HTMLInputElement>) => {
     const limit = 2;
-    setSearchID(e.target.value.slice(0, limit));
+    const result = e.currentTarget.value.replace(/\D/g, '').slice(0, limit);
+    setSearchID(result);
   };
 
   const handleOnClick = (searchID: number) => {
@@ -46,9 +47,7 @@ const FilterInput = () => {
     <>
       <div className="filterInput">
         <input
-          type="number"
-          min="1"
-          max={ctx.totalProducts}
+          type="text"
           placeholder="Type ID to search"
           value={searchID}
           onChange={handleIDChange}
