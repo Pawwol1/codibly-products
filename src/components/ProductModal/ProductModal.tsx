@@ -36,8 +36,7 @@ const ProductModal = () => {
   }, [productID]);
 
   const handleClick = () => {
-    navigate('/page/1');
-    ctx.setSearchBoolean(false);
+    navigate(`/page/${ctx.page}`);
   };
 
   return (
@@ -56,7 +55,7 @@ const ProductModal = () => {
         <p className="productModal__notFound">Product not found</p>
       )}
       <Button variant="contained" color="inherit" onClick={handleClick}>
-        Go back to main page
+        Go back
       </Button>
     </div>
   );

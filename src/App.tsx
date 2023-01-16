@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Main from './components/Main';
 import ProductModal from './components/ProductModal/ProductModal';
-import { PageNotFound } from './components/PageNotFound/PageNotFound';
+import PageNotFound from './components/PageNotFound/PageNotFound';
 import './App.scss';
 
 const App = () => {

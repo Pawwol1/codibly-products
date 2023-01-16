@@ -1,13 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import ProductsContext, { Product } from '../../context/products-context';
+import { Product } from '../../context/products-context';
 import './ProductRow.scss';
 
 const ProductRow = ({ product }: { product: Product }) => {
-  const ctx = useContext(ProductsContext);
   const navigate = useNavigate();
+
   const handleOnClick = (id: number) => {
-    ctx.setSearchBoolean(false);
     navigate(`/product/${id}`);
   };
 

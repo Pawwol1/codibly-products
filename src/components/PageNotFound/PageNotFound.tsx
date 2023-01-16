@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './PageNotFound.scss';
 
-export const PageNotFound = () => {
+const PageNotFound = () => {
   const navigate = useNavigate();
   return (
     <div className="pageNotFound">
@@ -19,3 +19,5 @@ export const PageNotFound = () => {
     </div>
   );
 };
+
+export default PageNotFound;

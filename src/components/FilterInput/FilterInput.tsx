@@ -21,6 +21,8 @@ const FilterInput = () => {
       ctx.setFilteredProduct(
         ctx.products.filter((product) => product.id === Number(filterID))
       );
+    } else {
+      ctx.setSearchBoolean(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchID, filterID, ctx.products]);
@@ -31,7 +33,6 @@ const FilterInput = () => {
   };
 
   const handleOnClick = (searchID: number) => {
-    ctx.setSearchBoolean(true);
     if (ctx.products.length > 0) {
       ctx.setFilteredProduct(
         ctx.products.filter((product) => product.id === searchID)
