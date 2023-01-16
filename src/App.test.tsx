@@ -9,9 +9,25 @@ import userEvent from '@testing-library/user-event';
 it('snapshot for App component', () => {
   const renderedComponent = renderer
     .create(
-      <MemoryRouter initialEntries={['/']}>
-        <App />
-      </MemoryRouter>
+      <ProductsContext.Provider
+        value={{
+          products: [{ id: 1, name: 'cerulean', year: 2000, color: '' }],
+          totalProducts: 12,
+          page: 1,
+          setPage: () => {},
+          totalPages: 3,
+          searchBoolean: false,
+          setSearchBoolean: () => {},
+          filteredProduct: [],
+          setFilteredProduct: () => {},
+          isLoading: false,
+          setIsLoading: () => {},
+        }}
+      >
+        <MemoryRouter initialEntries={['/']}>
+          <App />
+        </MemoryRouter>
+      </ProductsContext.Provider>
     )
     .toJSON();
   expect(renderedComponent).toMatchSnapshot();

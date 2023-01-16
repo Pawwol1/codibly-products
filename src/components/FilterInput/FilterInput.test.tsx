@@ -12,7 +12,7 @@ test('value from input should be rendered', () => {
     </MemoryRouter>
   );
   const inputElement = screen.getByPlaceholderText('Type ID to search');
-  const searchValue: number = 1;
+  const searchValue: string = '1';
   fireEvent.change(inputElement, { target: { value: searchValue } });
   expect(inputElement).toHaveValue(searchValue);
 });
@@ -41,7 +41,7 @@ test('searched value should be found and put it in the list', () => {
     </ProductsContext.Provider>
   );
   const inputElement = screen.getByPlaceholderText('Type ID to search');
-  const searchValue: number = 2;
+  const searchValue: string = '2';
   fireEvent.change(inputElement, { target: { value: searchValue } });
   expect(inputElement).toHaveValue(searchValue);
 
@@ -59,7 +59,7 @@ test('should print Wrong input when value from the input is wrong', () => {
     </MemoryRouter>
   );
   const inputElement = screen.getByPlaceholderText('Type ID to search');
-  const searchValue: number = 13;
+  const searchValue: string = '13';
   fireEvent.change(inputElement, { target: { value: searchValue } });
   expect(inputElement).toHaveValue(searchValue);
 
