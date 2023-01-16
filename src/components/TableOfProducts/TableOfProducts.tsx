@@ -31,7 +31,7 @@ const TableOfProducts = () => {
         </table>
       ) : ctx.isLoading ? (
         <div className="tableOfProducts__loading">
-          <CircularProgress />
+          <CircularProgress data-testid="products_loading" />
         </div>
       ) : (
         <p

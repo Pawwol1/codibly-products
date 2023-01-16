@@ -65,7 +65,7 @@ const FilterInput = () => {
         </Button>
       </div>
       {inputError && (
-        <p className="wrongInput">
+        <p className="filterInput__wrongInput" data-testid="wrongInput">
           Wrong input. Please type a number from 1 to {ctx.totalProducts}.
         </p>
       )}

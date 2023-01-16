@@ -13,8 +13,8 @@
   Button {
     margin-bottom: 8px;
   }
-}
-.wrongInput {
-  color: red;
-  font-size: 16px;
+  &__wrongInput {
+    color: red;
+    font-size: 16px;
+  }
 }

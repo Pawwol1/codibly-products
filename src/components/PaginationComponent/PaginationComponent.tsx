@@ -18,6 +18,7 @@ const PaginationComponent = () => {
     <div className="paginationComponent">
       {ctx.totalPages > 1 ? (
         <Pagination
+          data-testid="pagination"
           count={ctx.totalPages}
           onChange={(e, page) => {
             ctx.setPage(page);

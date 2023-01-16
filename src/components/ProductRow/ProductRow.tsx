@@ -13,6 +13,7 @@ const ProductRow = ({ product }: { product: Product }) => {
   return (
     <tr
       className="productRow"
+      data-testid="productRow_testid"
       style={{ backgroundColor: product.color }}
       onClick={() => handleOnClick(product.id)}
     >

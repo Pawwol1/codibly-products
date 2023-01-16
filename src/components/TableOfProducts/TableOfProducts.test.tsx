@@ -1,18 +1,27 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import PaginationComponent from './PaginationComponent';
 import { MemoryRouter } from 'react-router-dom';
+import TableOfProducts from './TableOfProducts';
 import ProductsContext from '../../context/products-context';
 
-test('pagination should be in document', () => {
+test('should render loading icon', () => {
+  render(
+    <MemoryRouter>
+      <TableOfProducts />
+    </MemoryRouter>
+  );
+  expect(screen.getByTestId('products_loading')).toBeInTheDocument();
+});
+
+test('empty list should response Products not found', () => {
   render(
     <ProductsContext.Provider
       value={{
         products: [],
         totalProducts: 12,
-        page: 1,
+        page: 0,
         setPage: () => {},
-        totalPages: 3,
+        totalPages: 0,
         searchBoolean: false,
         setSearchBoolean: () => {},
         filteredProduct: [],
@@ -22,19 +31,9 @@ test('pagination should be in document', () => {
       }}
     >
       <MemoryRouter>
-        <PaginationComponent />
+        <TableOfProducts />
       </MemoryRouter>
     </ProductsContext.Provider>
   );
-  const paginationElement = screen.getByTestId('pagination');
-  expect(paginationElement).toBeInTheDocument();
-});
-
-test('pagination should not be in document when totalpages is 0', () => {
-  render(
-    <MemoryRouter>
-      <PaginationComponent />
-    </MemoryRouter>
-  );
-  expect(screen.getByTestId('hidden')).toBeInTheDocument();
+  expect(screen.getByTestId('products_notFound')).toBeInTheDocument();
 });
